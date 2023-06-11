@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students Database</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand">Student Database</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="container">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="view">Table View</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="show">Tiles View</a>
+            </li>
+          </ul>
+        </div>
+        <div class="container">
+          <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#studentModal">ADD STUDENT</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+    <h1 class="display-2">List of students</h1>
+
+    <table class="table table-striped table-light table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Height (m)</th>
+            <th scope="col">Weight (kg)</th>
+            <th scope="col">Hair Color</th>
+            <th scope="col">GPA</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="user:${us}">
+            <th scope="row" th:text="${user.uid}"></th>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.height}"></td>
+            <td th:text="${user.weight}"></td>
+            <td th:text="${user.hair_color}"></td>
+            <td th:text="${user.gpa}"></td>
+            <td>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changeModal" id="change_btn">CHANGE</button>
+            </td>
+          </tr>
+        </tbody>
+    </table>
+
+
+
+    <div class="modal fade" id="studentModal" tabindex="-1" aria-labelledby="studentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="studentModalLabel">Student's profile</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+              <form action="/users/add" method="post">
+                <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="name" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control form-control-lg" id="name" name="name">
+                      </div>
+                      <div class="mb-3">
+                          <label for="height" class="col-form-label">Height (m):</label>
+                          <input type="number" max="3" min="0" step="any" class="form-control form-control-lg" id="height" name="height">
+                      </div>
+                      <div class="mb-3">
+                        <label for="weight" class="col-form-label">Weight (kg):</label>
+                        <input type="number" max="500" min="0" step="any" class="form-control form-control-lg" id="weight" name="weight">
+                      </div>
+                      <div class="mb-3">
+                        <label for="hair_color" class="col-form-label">Hair color:</label>
+                        <input type="text" class="form-control form-control-lg" id="hair_color" name="hair_color">
+                      </div>
+                      <div class="mb-3">
+                        <label for="gpa" class="col-form-label">GPA:</label>
+                        <input type="number" max="5" min="0" step="any" class="form-control form-control-lg" id="gpa" name="gpa">
+                      </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+                    <button class="btn btn-primary" type="submit" value="SEND">ADD</button>
+                </div>
+
+                
+              </form>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="modal fade" id="changeModal" tabindex="-1" aria-labelledby="changeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="changeModalLabel">Student's profile</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+              <form action="/users/view/{uid}" method="get" id="change_form">
+                <div class="modal-body">
+                    <input type="hidden" class="form-control form-control-lg" id="uid" name="uid">
+                      <div class="mb-3">
+                        <label for="name" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control form-control-lg" id="name" name="name">
+                      </div>
+                      <div class="mb-3">
+                          <label for="height" class="col-form-label">Height (m):</label>
+                          <input type="number" max="3" min="0.1" step="any" class="form-control form-control-lg" id="height" name="height">
+                      </div>
+                      <div class="mb-3">
+                        <label for="weight" class="col-form-label">Weight (kg):</label>
+                        <input type="number" max="500" min="30" step="any" class="form-control form-control-lg" id="weight" name="weight">
+                      </div>
+                      <div class="mb-3">
+                        <label for="hair_color" class="col-form-label">Hair color:</label>
+                        <input type="text" class="form-control form-control-lg" id="hair_color" name="hair_color">
+                      </div>
+                      <div class="mb-3">
+                        <label for="gpa" class="col-form-label">GPA:</label>
+                        <input type="number" max="5" min="0" step="any" class="form-control form-control-lg" id="gpa" name="gpa">
+                      </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+                    <button class="btn btn-primary" type="submit" value="SEND">APPLY</button>
+                    <button class="btn btn-danger" id="delete_btn" onclick="submitForm('/users/delete')">DELETE</button>
+                </div>
+              </form>
+              
+          </div>
+        </div>
+      </div>
+
+      <script th:src="@{/showAll.js}"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+</body>
+</html>
