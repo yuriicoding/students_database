@@ -16,5 +16,3 @@ Navbar also includes "ADD STUDENT" button, which can be activated from both desc
 Both "Table view" and "Tiles view" pages support editing sutdents: 
   on "Table view" editing is activated with the help of "CHANGE" buttons;
   on "Tiles view" editing is activated by pressing on the student's icon.
-
-"Tiles view" page 
